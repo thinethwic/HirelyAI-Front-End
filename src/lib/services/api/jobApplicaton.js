@@ -1,19 +1,27 @@
 export const getJobApllicationsForJob = async (id) => {
-    const res = await fetch(`http://localhost:8000/jobApplication?jobId=${id}`, {
+  const  token = await window.Clerk.session.getToken();
+    const res = await fetch(`https://aidf-back-end-march.onrender.com/jobApplication?jobId=${id}`, {
       method: "GET",
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
     });
     const data = await res.json();
     return data;
   };
   
   export const getJobApplicationById = async (id) => {
-  
-    const res = await fetch(`http://localhost:8000/jobApplication/${id}`, {
-      method: "GET",
-    });
-    const data = await res.json();
-    return data;
-  };
+  const token = await window.Clerk.session.getToken();
+
+  const res = await fetch(`https://aidf-back-end-march.onrender.com/jobApplication/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  return data;
+};
   
 export const createJobApplication = async (
     {
@@ -23,10 +31,13 @@ export const createJobApplication = async (
         answers,
     }
 ) => {
-    const res = await fetch(`http://localhost:8000/jobApplication`, {
+
+  const  token = await window.Clerk.session.getToken();
+  await fetch(`https://aidf-back-end-march.onrender.com/jobApplication`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         UserId: userId,

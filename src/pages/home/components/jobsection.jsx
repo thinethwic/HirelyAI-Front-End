@@ -14,6 +14,7 @@ function JobSection() {
         setJobs(data);
       })
       .catch((err) => {
+        console.log(err);
         setIsJobError(true);
       })
       .finally(() => {

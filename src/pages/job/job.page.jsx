@@ -11,12 +11,15 @@ import { Navigate, useParams } from "react-router-dom";
 const getJob = async (id) => {
   const token = await window.Clerk.session.getToken();
 
-  const res = await fetch(`http://localhost:8000/jobs/${id}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(
+    `https://aidf-back-end-march.onrender.com/jobs/${id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   const job = await res.json();
   return job;
 };
@@ -24,7 +27,7 @@ const getJob = async (id) => {
 const createJob = async (jobApplication) => {
   const token = await window.Clerk.session.getToken();
 
-  await fetch(`http://localhost:8000/jobApplication`, {
+  await fetch(`https://aidf-back-end-march.onrender.com/jobApplication`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +48,9 @@ function JobPage() {
         setJob(data);
         console.log(data);
       })
-      .catch((err) => {})
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {});
   }, [params]);
 

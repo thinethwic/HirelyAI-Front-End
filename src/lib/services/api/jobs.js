@@ -1,6 +1,6 @@
 export const getJob = async () => {
   const res = await fetch(
-    "http://localhost:8000/jobs",
+    "https://aidf-back-end-march.onrender.com/jobs",
     {
       method: "GET",
     }
@@ -10,10 +10,14 @@ export const getJob = async () => {
 };
 
 export const getJobById = async (id) => {
+  const token = await window.Clerk.session.getToken();
   const res = await fetch(
-    `http://localhost:8000/jobs/${id}`,
+    `https://aidf-back-end-march.onrender.com/${id}`,
     {
       method: "GET",      
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     }
   );
   const data = await res.json();
@@ -27,10 +31,12 @@ export const createJob = async ({
   location,
   questions,
 }) => {
-  await fetch("http://localhost:8000/jobs", {
+  const token = await window.Clerk.session.getToken();
+  await fetch("https://aidf-back-end-march.onrender.com/jobs", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify({
       title,
